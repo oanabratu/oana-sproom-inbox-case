@@ -41,6 +41,11 @@ class Document {
     string FileReference
 }
 
+class DocumentState {
+    DateTime Timestamp
+    State State
+}
+
 enum DocumentType {
     Invoice
     CreditNote
@@ -55,5 +60,7 @@ enum State {
 User "1" o-- "*" Document
 Document *-- DocumentType
 Document *-- State
+Document "1" *-- "*" DocumentState
+DocumentState *-- State
 
 @enduml

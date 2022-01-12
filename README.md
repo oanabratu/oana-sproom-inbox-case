@@ -10,7 +10,11 @@ To see how you write and structure code, we'd like you to build a simple solutio
 The documents are served by a public REST API and user interaction is done via a web application. Some diagrams to illustrate the idea.
 
 ![Class diagram](./Classes.png)
-![Class diagram](./Sequence.png)
+![Sequence diagram](./Sequence.png)
+
+The main user interface could be something simple like the following, but feel free to invent something better if you want:
+
+![Wireframe UI](./Wireframes.png)
 
 We are aware that everything is not 100% well specified here (is anything ever?). You are expected to fill in the blanks as you see fit. If you feel that something is very unclear, you are of course welcome to contact us and ask about it.
 
@@ -29,11 +33,11 @@ We are aware that everything is not 100% well specified here (is anything ever?)
 
  ### General requirements
  The API must be implemented in C#. You choose the rest of the techonologies to use. We use the following in Sproom, but you do NOT have to stick with these:
-  - Blazor WebAssembly for frontend - but also some React and some ASP.NET MVC
-  - MS SQL Server for database - but also some PostgresSQL
-  - Mainly .NET Framework for now, but also some .NET 6.0 and dreaming of migrating main code base to that
-  - NUnit, FluentAssertions and NSubstitute for unit tests and mocking
-  - Messaging (via Azure ServiceBus queues)
+  - `Blazor WebAssembly` for frontend - but also some `React` and some `ASP.NET MVC`
+  - `MS SQL Server` for database - but also some `PostgresSQL`
+  - Mainly `.NET Framework` for now, but also some .NET 6.0 and planning to migrate main code base to that in the future
+  - `NUnit`, `FluentAssertions` and `NSubstitute` for unit tests and mocking
+  - Messaging (via `Azure ServiceBus` queues)
 
 ### We would like to see
   - That the implemented parts are working
