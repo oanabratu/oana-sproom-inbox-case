@@ -48,3 +48,10 @@ We are aware that everything is not 100% well specified here (is anything ever?)
   - That the solution is complete
   - That the solution is production ready
   - Authentication and encryption to be implemented (http and no login is perfectly acceptable). User id's or similar can just be given as headers/parameters as you see fit. We will however most likely talk about security considerations in the interview
+
+## Code to get started
+The [SproomInbox.sln](./SproomInbox.sln) is a simple solution created from default templates that comes with VisualStudio. It contains a REST API in [SproomInbox.API](./SproomInbox.API) and a Blazor WebApp in [SproomInbox.WebApp](./SproomInbox.WebApp). You should run the SproomInbox.API and SproomInbox.WebApp.Server projects at the same time, to have a working demo of the WebApp calling the API.
+
+Feel free to use this code as a starting point, so you save a little bit of time setting up the projects. If you want to do the WebApp in something else than Blazor, you can just delete the WebApp folder and only use the API.
+
+You are of course also free to start from scratch, if you prefer that.
