@@ -35,7 +35,7 @@ We are aware that everything is not 100% well specified here (is anything ever?)
  The API must be implemented in C#. You choose the rest of the techonologies to use. We use the following in Sproom, but you do NOT have to stick with these:
   - `Blazor WebAssembly` for frontend - but also some `React` and some `ASP.NET MVC`
   - `MS SQL Server` for database - but also some `PostgresSQL`
-  - Mainly `.NET Framework` for now, but also some .NET 6.0 and planning to migrate main code base to that in the future
+  - Mainly `.NET Framework` for now, but also some ´.NET 6.0´ and planning to migrate main code base to that in the future
   - `NUnit`, `FluentAssertions` and `NSubstitute` for unit tests and mocking
   - Messaging (via `Azure ServiceBus` queues)
 
