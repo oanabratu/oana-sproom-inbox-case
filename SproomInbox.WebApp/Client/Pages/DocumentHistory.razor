@@ -1,0 +1,51 @@
+﻿@page "/documentHistory/{DocumentId}"
+@using SproomInbox.Shared
+@inject HttpClient Http
+
+<PageTitle>Sproom Inbox</PageTitle>
+
+<h1>Sproom Inbox</h1>
+
+@if (documentStates != null)
+{
+    <p>Document state history</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>State</th>
+                <th>Date</th>
+                <th>Username</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var documentState in documentStates)
+            {
+                <tr>
+                    <td>@documentState.State</td>
+                    <td>@documentState.Timestamp.ToShortDateString()</td>
+                    <td>@documentState.Username</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+} 
+else {
+    <p><em>Loading...</em></p>
+}
+
+@code {
+    private IList<StateHistoryModel>? documentStates;
+
+    [Parameter]
+    public string DocumentId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Guid documentGuid;
+
+        if ( Guid.TryParse(DocumentId, out documentGuid) )
+        {
+            documentStates = await Http.GetFromJsonAsync<IList<StateHistoryModel>>($"Document/{DocumentId}/history");            
+        }
+    }
+}

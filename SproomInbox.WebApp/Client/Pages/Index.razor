@@ -1,5 +1,5 @@
 ﻿@page "/"
-@using SproomInbox.WebApp.Shared
+@using SproomInbox.Shared
 @inject HttpClient Http
 
 <PageTitle>Sproom Inbox</PageTitle>
@@ -12,16 +12,30 @@
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>Id</th>
-                <th>Date</th>                
+                <th>Type</th>
+                <th>State</th>
+                <th>FileReference</th>
+                <th>Date</th>
+                <th></th>                
             </tr>
         </thead>
         <tbody>
             @foreach (var document in documents)
             {
                 <tr>
+                    <td><input type="checkbox" @bind="@document.Selected"></td>
                     <td>@document.Id</td>
+                    <td>@document.DocumentType</td>
+                    <td>@document.State</td>
+                    <td>@document.FileReference</td>
                     <td>@document.CreationDate.ToShortDateString()</td>
+                    <td>
+                        <a href="@($"documentHistory/{@document.Id}")" class="btn btn-primary table-btn">
+                            History
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -32,10 +46,10 @@ else {
 }
 
 @code {
-    private IList<Document>? documents;
+    private IList<DocumentModel>? documents;
 
     protected override async Task OnInitializedAsync()
     {
-        documents = await Http.GetFromJsonAsync<IList<Document>>("Document");
+        documents = await Http.GetFromJsonAsync<IList<DocumentModel>>("Document");
     }
 }

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SproomInbox.WebApp.Shared;
+using SproomInbox.Shared;
 
 namespace SproomInbox.WebApp.Server.Controllers
 {
@@ -18,10 +18,18 @@ namespace SproomInbox.WebApp.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Document>> GetDocuments()
+        public async Task<IEnumerable<DocumentModel>> GetDocuments()
         {
             var result = await _httpClient.GetAsync("http://localhost:6170/Document");
-            return await result.Content.ReadFromJsonAsync<IEnumerable<Document>>() ?? Enumerable.Empty<Document>();
+            return await result.Content.ReadFromJsonAsync<IEnumerable<DocumentModel>>() ?? Enumerable.Empty<DocumentModel>();
+        }
+
+
+        [HttpGet("{id}/history")]
+        public async Task<IEnumerable<StateHistoryModel>> GetDocumentHistory(Guid id)
+        {
+            var result = await _httpClient.GetAsync($"http://localhost:6170/Document/{id}/history");
+            return await result.Content.ReadFromJsonAsync<IEnumerable<StateHistoryModel>>() ?? Enumerable.Empty<StateHistoryModel>();
         }
     }
 }

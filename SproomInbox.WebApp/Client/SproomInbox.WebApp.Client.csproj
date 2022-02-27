@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\SproomInbox.WebApp.Shared.csproj" />
+    <ProjectReference Include="..\..\SproomInbox.Shared\SproomInbox.Shared.csproj" />
   </ItemGroup>
 
 </Project>
