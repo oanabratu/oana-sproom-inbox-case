@@ -1,14 +1,48 @@
 ﻿@page "/"
 @using SproomInbox.Shared
-@inject HttpClient Http
+@inherits IndexBase
 
 <PageTitle>Sproom Inbox</PageTitle>
 
 <h1>Sproom Inbox</h1>
 
-@if (documents != null)
+@if (documents != null && users != null)
 {
     <p>Welcome to your inbox! You have @documents.Count documents</p>
+    <br/>
+    <br />
+
+    <EditForm Model="@filter">
+        <div>
+            <label for="username">User: </label>
+            <InputSelect id="username" class="form-control-sm" @bind-Value=@filter.Username >
+                <option value="">Any User</option>
+                @foreach (var user in users)
+                {
+                    <option value="@user.Username">@user.FirstName @user.LastName</option>
+                }
+            </InputSelect>
+            <label for="documentState">State: </label>
+            <InputSelect id="documentState" class="form-control-sm" 
+                ValueExpression="@(()=>filter.DocumentState)"
+                Value="@filter.DocumentState" 
+                ValueChanged="@((StateModel? value) => {ChangeDocState(value);})"  >
+
+                <option value="">Any State</option>
+                <option value="@(StateModel.Received)">Received</option>
+                <option value="@(StateModel.Approved)">Approved</option> 
+                <option value="@(StateModel.Rejected)">Rejected</option>
+            </InputSelect>
+            <label for="documentType">Type: </label>
+            <InputSelect id="documentType" class="form-control-sm" @bind-Value=@filter.DocumentType >
+                <option value="">Any Type</option>
+                <option value="@(DocumentTypeModel.Invoice)">Invoice</option>
+                <option value="@(DocumentTypeModel.CreditNote)">CreditNote</option>
+            </InputSelect>
+        
+        </div>
+    </EditForm>
+
     <table class="table">
         <thead>
             <tr>
@@ -43,13 +77,4 @@
 } 
 else {
     <p><em>Loading...</em></p>
-}
-
-@code {
-    private IList<DocumentModel>? documents;
-
-    protected override async Task OnInitializedAsync()
-    {
-        documents = await Http.GetFromJsonAsync<IList<DocumentModel>>("Document");
-    }
 }

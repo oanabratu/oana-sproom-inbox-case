@@ -4,6 +4,9 @@ using SproomInbox.Shared;
 
 namespace SproomInbox.API.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface IUserService
     {
         /// <summary>
@@ -11,17 +14,19 @@ namespace SproomInbox.API.Services
         /// </summary>
         /// <param name="newUser"></param>
         /// <returns></returns>
-        ServiceResult<User> CreateUser(UserModel newUser);
+        Task<ServiceResult<User>> CreateUserAsync(UserModel newUser);
+
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        ServiceResult<IEnumerable<User>> GetAllUsers();
+        Task<ServiceResult<IEnumerable<User>>> GetAllUsersAsync();
+        
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        ServiceResult<User> GetUserById(string id);
+        Task<ServiceResult<User>> GetUserByIdAsync(string id);
     }
 }

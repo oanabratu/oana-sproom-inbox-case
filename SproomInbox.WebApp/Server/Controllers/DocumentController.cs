@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
 using SproomInbox.Shared;
+using System.Text;
 
 namespace SproomInbox.WebApp.Server.Controllers
 {
@@ -18,9 +21,30 @@ namespace SproomInbox.WebApp.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<DocumentModel>> GetDocuments()
+        public async Task<IEnumerable<DocumentModel>> GetDocuments([FromQuery] DocumentQueryParams queryParams)
         {
-            var result = await _httpClient.GetAsync("http://localhost:6170/Document");
+            var param = new Dictionary<string, string>();
+
+
+            if (queryParams != null)
+            {
+                if(queryParams.Username != null)
+                    param.Add("username", queryParams.Username);
+
+                if (queryParams.State != null)
+                    param.Add("state", queryParams.State.Value.ToString());
+
+                if (queryParams.Type != null)
+                    param.Add("type", queryParams.Type.Value.ToString());
+            }
+
+            
+
+            var requestUri = QueryHelpers.AddQueryString("http://localhost:6170/Document", param);
+
+
+
+            var result = await _httpClient.GetAsync(requestUri);
             return await result.Content.ReadFromJsonAsync<IEnumerable<DocumentModel>>() ?? Enumerable.Empty<DocumentModel>();
         }
 

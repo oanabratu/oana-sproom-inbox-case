@@ -12,11 +12,21 @@ namespace SproomInbox.API.Services
 
         private readonly IUserRepository _userRepository;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="userRepository"></param>
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
-        public ServiceResult<User> CreateUser(UserModel newUser)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <returns></returns>
+        public async Task<ServiceResult<User>> CreateUserAsync(UserModel newUser)
         {
             var result = new ServiceResult<User>
             {
@@ -33,7 +43,7 @@ namespace SproomInbox.API.Services
             // Check if a user with this id already exists in the database
             var foundUser = _userRepository.GetUserById(newUser.Username);
 
-            if (foundUser == null)
+            if (foundUser != null)
             {
                 result.ErrorMessage = $"A user with {newUser.Username} username alreaady exists.";
                 return result;
@@ -63,23 +73,28 @@ namespace SproomInbox.API.Services
             return result;
         }
 
-        //get users
-        public ServiceResult<IEnumerable<User>> GetAllUsers()
+        /// <summary>
+        /// Get All Users
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ServiceResult<IEnumerable<User>>> GetAllUsersAsync()
         {
-
             var result = new ServiceResult<IEnumerable<User>>();
+
             var getAllUsers = _userRepository.GetAllUsers();
             result.Data = getAllUsers;
             result.IsSuccessful = true;//TODO needed?
             return result;
         }
 
-        public ServiceResult<User> GetUserById(string id)
+        public async Task<ServiceResult<User>> GetUserByIdAsync(string id)
         {
             var result = new ServiceResult<User>();
 
             var user = _userRepository.GetUserById(id);
             result.Data = user;
+            result.IsSuccessful = true;
+
             return result;
         }
     }

@@ -12,12 +12,12 @@ namespace SproomInbox.Shared
         /// <summary>
         /// 
         /// </summary>
-        public int DocumentType { get; set; }
+        public DocumentTypeModel DocumentType { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public int State { get; set; }
+        public StateModel State { get; set; }
 
         /// <summary>
         /// Creation date of the document

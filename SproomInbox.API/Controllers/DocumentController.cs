@@ -13,7 +13,10 @@ namespace SproomInbox.API
     {
         private readonly IDocumentService _documentService;
 
-
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="documentService"></param>
         public DocumentController(IDocumentService documentService)
         {
             _documentService = documentService;

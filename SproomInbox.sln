@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SproomInbox.WebApp.Server",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SproomInbox.WebApp.Client", "SproomInbox.WebApp\Client\SproomInbox.WebApp.Client.csproj", "{27B8020F-9DA0-4A10-811D-2122B0F7132C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SproomInbox.Shared", "SproomInbox.Shared\SproomInbox.Shared.csproj", "{8F473FC3-1870-4F37-B817-4DA7896F7C41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SproomInbox.Shared", "SproomInbox.Shared\SproomInbox.Shared.csproj", "{8F473FC3-1870-4F37-B817-4DA7896F7C41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
