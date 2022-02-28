@@ -23,14 +23,6 @@ namespace SproomInbox.WebApp.Client.Pages
             users = await Http.GetFromJsonAsync<IList<UserModel>>("User");
         }
 
-        protected void ChangeDocState(StateModel? value)
-        {
-            filter.DocumentState = value;
-
-            ReloadDocuments().Wait();
-            StateHasChanged();
-        }
-
         protected async Task ReloadDocuments()
         {
             const string url = "Document";

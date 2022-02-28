@@ -12,7 +12,7 @@
     <br/>
     <br />
 
-    <EditForm Model="@filter">
+    <EditForm Model="@filter" >
         <div>
             <label for="username">User: </label>
             <InputSelect id="username" class="form-control-sm" @bind-Value=@filter.Username >
@@ -23,11 +23,7 @@
                 }
             </InputSelect>
             <label for="documentState">State: </label>
-            <InputSelect id="documentState" class="form-control-sm" 
-                ValueExpression="@(()=>filter.DocumentState)"
-                Value="@filter.DocumentState" 
-                ValueChanged="@((StateModel? value) => {ChangeDocState(value);})"  >
-
+            <InputSelect id="documentState" class="form-control-sm" @bind-Value=@filter.DocumentState  >
                 <option value="">Any State</option>
                 <option value="@(StateModel.Received)">Received</option>
                 <option value="@(StateModel.Approved)">Approved</option> 
@@ -39,7 +35,8 @@
                 <option value="@(DocumentTypeModel.Invoice)">Invoice</option>
                 <option value="@(DocumentTypeModel.CreditNote)">CreditNote</option>
             </InputSelect>
-        
+            
+            <a class="btn btn-primary table-btn" @onclick="@ReloadDocuments">Filter</a>
         </div>
     </EditForm>
 
