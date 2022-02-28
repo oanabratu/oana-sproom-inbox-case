@@ -15,10 +15,10 @@ namespace SproomInbox.API.Services
         {
             _logger = logger;
         }
-        public void SendMessage(string to, string subject, string body)
+        public void SendEmail(string message)
         {
             //Log the messaje
-            _logger.LogInformation($"To: {to} Subject: {subject} Body: {body}");
+            _logger.LogInformation(message);
         }
     }
 }

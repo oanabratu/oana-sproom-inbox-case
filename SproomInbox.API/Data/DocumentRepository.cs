@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SproomInbox.API.Data.Entities;
+using SproomInbox.API.Services;
 using SproomInbox.Shared;
 
 namespace SproomInbox.API.Data
@@ -10,14 +11,14 @@ namespace SproomInbox.API.Data
     public class DocumentRepository : IDocumentRepository
     {
         private readonly AppDbContext _ctx;
-        
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="ctx"></param>
         public DocumentRepository(AppDbContext ctx)
         {
-            _ctx = ctx;
+            _ctx = ctx;           
         }
 
         /// <summary>
@@ -65,6 +66,7 @@ namespace SproomInbox.API.Data
         public async Task<Document> GetDocumentById(Guid id)
         {
             return await _ctx.Documents
+                .Include("DocumentStates")
                 .FirstOrDefaultAsync(d => d.Id == id);
         }
 

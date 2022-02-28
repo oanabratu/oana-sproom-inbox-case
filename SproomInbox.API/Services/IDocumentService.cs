@@ -45,7 +45,11 @@ namespace SproomInbox.API.Services
         /// <returns></returns>
         Task<ServiceResult<Document>> GetDocumentByIdAsync(Guid id);
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task<ServiceResult<IEnumerable<StateHistory>>> GetDocumentHistoryAsync(Guid id);
     }
 }

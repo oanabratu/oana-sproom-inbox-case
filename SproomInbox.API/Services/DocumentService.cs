@@ -12,16 +12,18 @@ namespace SproomInbox.API.Services
     {
         private readonly IDocumentRepository _documentRepository;
         private readonly IUserRepository _userRepository;
+        private readonly INullMailService _mailService;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="userRepository"></param>
-        public DocumentService(IDocumentRepository repository, IUserRepository userRepository)
+        public DocumentService(IDocumentRepository repository, IUserRepository userRepository, INullMailService mailService)
         {
             _documentRepository = repository;
             _userRepository = userRepository;
+            _mailService = mailService;
         }
 
         /// <summary>
@@ -137,6 +139,8 @@ namespace SproomInbox.API.Services
                                         Username = changeStateParams.Username
                                     }
                 );
+
+            _mailService.SendEmail($"forwarded document: {foundDocument.Id} to adress of {foundDocument.AssignedToUser}");
 
             await _documentRepository.SaveAsync();
             result.IsSuccessful = true;

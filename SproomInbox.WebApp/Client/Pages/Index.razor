@@ -12,7 +12,7 @@
     <br/>
     <br />
 
-    <EditForm Model="@filter" >
+    <EditForm EditContext="@EditContext" Context="NewContext">
         <div>
             <label for="username">User: </label>
             <InputSelect id="username" class="form-control-sm" @bind-Value=@filter.Username >
@@ -71,6 +71,20 @@
             }
         </tbody>
     </table>
+
+    @if(filter.Username != null)
+    {
+        @if(filter.DocumentState == StateModel.Received)
+        {
+            <a class="btn btn-primary table-btn" @onclick="@ApproveDocuments">Approve</a>
+            <a class="btn btn-primary table-btn" @onclick="@RejectDocuments">Reject</a>
+        }
+        else if(filter.DocumentState == StateModel.Rejected)
+        {
+            <a class="btn btn-primary table-btn" @onclick="@ApproveDocuments">Approve</a>        
+        }
+    }
+
 } 
 else {
     <p><em>Loading...</em></p>

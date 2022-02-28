@@ -94,6 +94,26 @@ namespace SproomInbox.API
             return NoContent();
         }
 
+        [HttpPut("approveAll")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> ApproveAllDocuments([FromBody] ApproveAllDocumentsParams approveAllDocumentsParams)
+        {
+            var operationResults = new List<OperationResultModel>();   
+
+            foreach(var documentId in approveAllDocumentsParams.DocumentIds)
+            {
+                var result = await _documentService.ApproveDocumentAsync(documentId, new ChangeStateParams { Username = approveAllDocumentsParams.Username });
+
+                operationResults.Add(new OperationResultModel
+                {
+                    Id = documentId,
+                    IsSuccessful = result.IsSuccessful
+                });
+            }
+
+            return Ok(operationResults);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -113,6 +133,31 @@ namespace SproomInbox.API
             }
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="approveAllDocumentsParams"></param>
+        /// <returns></returns>
+        [HttpPut("rejectAll")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> RejectAllDocuments([FromBody] RejectAllDocumentsParams approveAllDocumentsParams)
+        {
+            var operationResults = new List<OperationResultModel>();
+
+            foreach (var documentId in approveAllDocumentsParams.DocumentIds)
+            {
+                var result = await _documentService.RejectDocumentAsync(documentId, new ChangeStateParams { Username = approveAllDocumentsParams.Username });
+
+                operationResults.Add(new OperationResultModel
+                {
+                    Id = documentId,
+                    IsSuccessful = result.IsSuccessful
+                });
+            }
+
+            return Ok(operationResults);
         }
     }
 }
