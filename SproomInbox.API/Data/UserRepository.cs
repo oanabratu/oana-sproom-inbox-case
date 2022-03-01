@@ -1,35 +1,55 @@
-﻿using SproomInbox.API.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using SproomInbox.API.Data.Entities;
 
 namespace SproomInbox.API.Data
 {
+    /// <summary>
+    /// UserRepository is the implementation of IUserRepository
+    /// DocumentRepository makes User CRUD operations using Entity Framework
+    /// </summary>
     public class UserRepository : IUserRepository
     {
         private readonly AppDbContext _ctx;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ctx"></param>
         public UserRepository(AppDbContext ctx)
         {
             _ctx = ctx;
         }
-        public User CreateUser(User user)
+
+        /// <summary>
+        /// Creates a new user in the DB
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>The newly created user</returns>
+        public async Task<User> CreateUserAsync(User user)
         {
             var addedEntity = _ctx.Users.Add(user);
-            _ctx.SaveChanges();
+            await _ctx.SaveChangesAsync();
             return addedEntity.Entity;
         }
 
-        public IEnumerable<User> GetAllUsers()
+        /// <summary>
+        /// Retrieves all users from the DB
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return _ctx.Users;
+            return await _ctx.Users.ToListAsync();
         }
 
-        public User GetUserById(string id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<User?> GetUserByIdAsync(string id)
         {
-            return _ctx.Users
-                .FirstOrDefault(d => d.Username == id);
-        }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
+            return await _ctx.Users
+                .FirstOrDefaultAsync(d => d.Username == id);
         }
     }
 }

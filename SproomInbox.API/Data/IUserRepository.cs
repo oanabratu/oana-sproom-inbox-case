@@ -2,11 +2,29 @@
 
 namespace SproomInbox.API.Data
 {
+    /// <summary>
+    /// IUserRepository
+    /// </summary>
     public interface IUserRepository
     {
-        User CreateUser(User user);
-        IEnumerable<User> GetAllUsers();
-        User GetUserById(string id);
-        void Save();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<User> CreateUserAsync(User user);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<User>> GetAllUsersAsync();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<User?> GetUserByIdAsync(string id);
     }
 }

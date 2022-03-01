@@ -37,7 +37,7 @@ namespace SproomInbox.API.Services
 
             if (string.IsNullOrEmpty(newDocument.AssignedToUser) == false)
             {
-                var foundUser = _userRepository.GetUserById(newDocument.AssignedToUser);
+                var foundUser = _userRepository.GetUserByIdAsync(newDocument.AssignedToUser);
 
                 if (foundUser == null)
                 {
@@ -94,7 +94,7 @@ namespace SproomInbox.API.Services
             var result = new ServiceResult<Document>();
 
             //document by GUID
-            var foundDocument = await _documentRepository.GetDocumentById(id);
+            var foundDocument = await _documentRepository.GetDocumentByIdAsync(id);
 
             if (foundDocument == null)
             {
@@ -112,7 +112,7 @@ namespace SproomInbox.API.Services
 
             if (string.IsNullOrEmpty(changeStateParams.Username) == false)
             {
-                var foundUser = _userRepository.GetUserById(changeStateParams.Username);
+                var foundUser = _userRepository.GetUserByIdAsync(changeStateParams.Username);
 
                 if (foundUser == null)
                 {
@@ -140,7 +140,7 @@ namespace SproomInbox.API.Services
                                     }
                 );
 
-            _mailService.SendEmail($"forwarded document: {foundDocument.Id} to adress of {foundDocument.AssignedToUser}");
+            _mailService.SendEmail(foundDocument.AssignedToUser,  $"Document {foundDocument.Id} has been approved!");
 
             await _documentRepository.SaveAsync();
             result.IsSuccessful = true;
@@ -159,7 +159,7 @@ namespace SproomInbox.API.Services
             var result = new ServiceResult<Document>();
 
             //document by GUID
-            var foundDocument = await _documentRepository.GetDocumentById(id);
+            var foundDocument = await _documentRepository.GetDocumentByIdAsync(id);
 
             if (foundDocument == null)
             {
@@ -177,7 +177,7 @@ namespace SproomInbox.API.Services
 
             if (string.IsNullOrEmpty(changeStateParams.Username) == false)
             {
-                var foundUser = _userRepository.GetUserById(changeStateParams.Username);
+                var foundUser = _userRepository.GetUserByIdAsync(changeStateParams.Username);
 
                 if (foundUser == null)
                 {
@@ -220,7 +220,7 @@ namespace SproomInbox.API.Services
         {
             var result = new ServiceResult<Document>();
 
-            var document = await _documentRepository.GetDocumentById(id);
+            var document = await _documentRepository.GetDocumentByIdAsync(id);
 
             result.Data = document;
             return result;

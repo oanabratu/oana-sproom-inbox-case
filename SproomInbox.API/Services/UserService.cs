@@ -5,7 +5,7 @@ using SproomInbox.Shared;
 namespace SproomInbox.API.Services
 {
     /// <summary>
-    /// 
+    /// Service that handles Users
     /// </summary>
     public class UserService : IUserService
     {
@@ -41,7 +41,7 @@ namespace SproomInbox.API.Services
             }
             
             // Check if a user with this id already exists in the database
-            var foundUser = _userRepository.GetUserById(newUser.Username);
+            var foundUser = await _userRepository.GetUserByIdAsync(newUser.Username);
 
             if (foundUser != null)
             {
@@ -59,7 +59,7 @@ namespace SproomInbox.API.Services
             User createdUser;
             try
             {
-                createdUser = _userRepository.CreateUser(user);
+                createdUser = await _userRepository.CreateUserAsync(user);
             }
             catch(Exception e)
             {
@@ -67,8 +67,15 @@ namespace SproomInbox.API.Services
                 return result;
             }
 
-            result.IsSuccessful = true;
-            result.Data = createdUser;
+            if(createdUser != null)
+            {
+                result.IsSuccessful = true;
+                result.Data = createdUser;
+            }
+            else
+            {
+                result.IsSuccessful = false;
+            }
 
             return result;
         }
@@ -81,19 +88,34 @@ namespace SproomInbox.API.Services
         {
             var result = new ServiceResult<IEnumerable<User>>();
 
-            var getAllUsers = _userRepository.GetAllUsers();
+            var getAllUsers = await _userRepository.GetAllUsersAsync();
+            
             result.Data = getAllUsers;
-            result.IsSuccessful = true;//TODO needed?
+            result.IsSuccessful = true;
+            
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<User>> GetUserByIdAsync(string id)
         {
             var result = new ServiceResult<User>();
 
-            var user = _userRepository.GetUserById(id);
-            result.Data = user;
-            result.IsSuccessful = true;
+            var user = await _userRepository.GetUserByIdAsync(id);
+
+            if(user != null)
+            {
+                result.Data = user;
+                result.IsSuccessful = true;
+            }
+            else
+            {
+                result.IsSuccessful= false;
+            }
 
             return result;
         }

@@ -48,7 +48,7 @@ namespace SproomInbox.API
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAllDocuments()
+        public async Task<IActionResult> GetAllUsers()
         {
             var getAllDocumentsResult = await _userService.GetAllUsersAsync();
 

@@ -6,85 +6,102 @@
 
 <h1>Sproom Inbox</h1>
 
+<p>Welcome to your inbox! </p>
+<br/>
+
 @if (documents != null && users != null)
 {
-    <p>Welcome to your inbox! You have @documents.Count documents</p>
-    <br/>
-    <br />
-
-    <EditForm EditContext="@EditContext" Context="NewContext">
-        <div>
-            <label for="username">User: </label>
-            <InputSelect id="username" class="form-control-sm" @bind-Value=@filter.Username >
-                <option value="">Any User</option>
-                @foreach (var user in users)
-                {
-                    <option value="@user.Username">@user.FirstName @user.LastName</option>
-                }
-            </InputSelect>
-            <label for="documentState">State: </label>
-            <InputSelect id="documentState" class="form-control-sm" @bind-Value=@filter.DocumentState  >
-                <option value="">Any State</option>
-                <option value="@(StateModel.Received)">Received</option>
-                <option value="@(StateModel.Approved)">Approved</option> 
-                <option value="@(StateModel.Rejected)">Rejected</option>
-            </InputSelect>
-            <label for="documentType">Type: </label>
-            <InputSelect id="documentType" class="form-control-sm" @bind-Value=@filter.DocumentType >
-                <option value="">Any Type</option>
-                <option value="@(DocumentTypeModel.Invoice)">Invoice</option>
-                <option value="@(DocumentTypeModel.CreditNote)">CreditNote</option>
-            </InputSelect>
-            
-            <a class="btn btn-primary table-btn" @onclick="@ReloadDocuments">Filter</a>
-        </div>
-    </EditForm>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Id</th>
-                <th>Type</th>
-                <th>State</th>
-                <th>FileReference</th>
-                <th>Date</th>
-                <th></th>                
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var document in documents)
-            {
-                <tr>
-                    <td><input type="checkbox" @bind="@document.Selected"></td>
-                    <td>@document.Id</td>
-                    <td>@document.DocumentType</td>
-                    <td>@document.State</td>
-                    <td>@document.FileReference</td>
-                    <td>@document.CreationDate.ToShortDateString()</td>
-                    <td>
-                        <a href="@($"documentHistory/{@document.Id}")" class="btn btn-primary table-btn">
-                            History
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    @if(filter.Username != null)
+    @if(operationMessage.Count == 0)
     {
-        @if(filter.DocumentState == StateModel.Received)
+        <p>You have @documents.Count documents</p>
+        <br/>
+        <br />
+
+        <EditForm EditContext="@EditContext" Context="NewContext">
+            <div>
+                <label for="username">User: </label>
+                <InputSelect id="username" class="form-control-sm" @bind-Value=@filter.Username >
+                    <option value="">Any User</option>
+                    @foreach (var user in users)
+                    {
+                        <option value="@user.Username">@user.FirstName @user.LastName</option>
+                    }
+                </InputSelect>
+                <label for="documentState">State: </label>
+                <InputSelect id="documentState" class="form-control-sm" @bind-Value=@filter.DocumentState  >
+                    <option value="">Any State</option>
+                    <option value="@(StateModel.Received)">Received</option>
+                    <option value="@(StateModel.Approved)">Approved</option> 
+                    <option value="@(StateModel.Rejected)">Rejected</option>
+                </InputSelect>
+                <label for="documentType">Type: </label>
+                <InputSelect id="documentType" class="form-control-sm" @bind-Value=@filter.DocumentType >
+                    <option value="">Any Type</option>
+                    <option value="@(DocumentTypeModel.Invoice)">Invoice</option>
+                    <option value="@(DocumentTypeModel.CreditNote)">CreditNote</option>
+                </InputSelect>
+            
+                <a class="btn btn-primary table-btn" @onclick="@ReloadDocuments">Filter</a>
+            </div>
+        </EditForm>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Id</th>
+                    <th>Assigned To</th>
+                    <th>Type</th>
+                    <th>State</th>
+                    <th>FileReference</th>
+                    <th>Date</th>
+                    <th></th>                
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var document in documents)
+                {
+                    <tr>
+                        <td><input type="checkbox" @bind="@document.Selected"></td>
+                        <td>@document.Id</td>
+                        <td>@ShowFirstAndLastname(document.AssignedToUser)</td>
+                        <td>@document.DocumentType</td>
+                        <td>@document.State</td>
+                        <td>@document.FileReference</td>
+                        <td>@document.CreationDate</td>
+                        <td>
+                            <a href="@($"documentHistory/{@document.Id}")" class="btn btn-primary table-btn">
+                                History
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if(filter.Username != null && documents.Count > 0)
         {
-            <a class="btn btn-primary table-btn" @onclick="@ApproveDocuments">Approve</a>
-            <a class="btn btn-primary table-btn" @onclick="@RejectDocuments">Reject</a>
-        }
-        else if(filter.DocumentState == StateModel.Rejected)
-        {
-            <a class="btn btn-primary table-btn" @onclick="@ApproveDocuments">Approve</a>        
+            @if(filter.DocumentState == StateModel.Received)
+            {
+                <a class="btn btn-primary table-btn" @onclick="@ApproveDocuments">Approve</a>
+                <a class="btn btn-primary table-btn" @onclick="@RejectDocuments">Reject</a>
+            }
+            else if(filter.DocumentState == StateModel.Rejected)
+            {
+                <a class="btn btn-primary table-btn" @onclick="@ApproveDocuments">Approve</a>        
+            }
         }
     }
-
+    else
+    {
+        <div class="alert alert-success">
+            @foreach(var message in operationMessage)
+                {
+                    <p>@message</p>
+                }
+        </div> 
+        <a class="btn btn-primary table-btn" @onclick="@GoBack">Go Back</a> 
+    }
 } 
 else {
     <p><em>Loading...</em></p>

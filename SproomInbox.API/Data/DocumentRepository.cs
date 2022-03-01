@@ -6,7 +6,8 @@ using SproomInbox.Shared;
 namespace SproomInbox.API.Data
 {
     /// <summary>
-    /// 
+    /// DocumentRepository is the implementation of IDocumentRepository
+    /// DocumentRepository makes Document CRUD operations using Entity Framework
     /// </summary>
     public class DocumentRepository : IDocumentRepository
     {
@@ -57,13 +58,12 @@ namespace SproomInbox.API.Data
                 (queryParams.Username == null || p.AssignedToUser == queryParams.Username)).ToListAsync();
         }
 
-
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<Document> GetDocumentById(Guid id)
+        public async Task<Document?> GetDocumentByIdAsync(Guid id)
         {
             return await _ctx.Documents
                 .Include("DocumentStates")

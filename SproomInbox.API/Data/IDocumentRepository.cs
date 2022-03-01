@@ -10,8 +10,8 @@ namespace SproomInbox.API.Data
     {
         Task<Document> CreateDocumentAsync(Document document);
         Task<IEnumerable<Document>> GetAllDocumentsAsync();
-        Task<IEnumerable<Document>> GetAllDocumentsAsync(DocumentQueryParams type);
-        Task<Document> GetDocumentById(Guid id);
+        Task<IEnumerable<Document?>> GetAllDocumentsAsync(DocumentQueryParams type);
+        Task<Document> GetDocumentByIdAsync(Guid id);
         Task<IEnumerable<StateHistory>> GetDocumentHistory(Guid id);
         Task SaveAsync();
     }

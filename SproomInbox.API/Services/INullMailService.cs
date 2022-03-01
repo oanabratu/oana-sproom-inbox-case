@@ -2,6 +2,6 @@
 {
     public interface INullMailService
     {
-        void SendEmail(string emailMessage);
+        void SendEmail(string to, string emailMessage);
     }
 }

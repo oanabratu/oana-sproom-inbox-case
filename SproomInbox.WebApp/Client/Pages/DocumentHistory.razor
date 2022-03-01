@@ -2,6 +2,7 @@
 @using SproomInbox.Shared
 @inject HttpClient Http
 
+
 <PageTitle>Sproom Inbox</PageTitle>
 
 <h1>Sproom Inbox</h1>
@@ -25,12 +26,15 @@
             {
                 <tr>
                     <td>@documentState.State</td>
-                    <td>@documentState.Timestamp.ToShortDateString()</td>
+                    <td>@documentState.Timestamp</td>
                     <td>@documentState.Username</td>
                 </tr>
             }
         </tbody>
     </table>
+    <a class="btn btn-primary table-btn" @onclick="@GoBack">Go Back</a> 
+         
+
 } 
 else {
     <p><em>Loading...</em></p>
@@ -38,6 +42,8 @@ else {
 
 @code {
     private IList<StateHistoryModel>? documentStates;
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
 
     [Parameter]
     public string DocumentId { get; set; }
@@ -51,4 +57,11 @@ else {
             documentStates = await Http.GetFromJsonAsync<IList<StateHistoryModel>>($"Document/{DocumentId}/history");            
         }
     }
+
+    public void GoBack()
+    {
+        NavigationManager.NavigateTo("/");
+    }
 }
+
+

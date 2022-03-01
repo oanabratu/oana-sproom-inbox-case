@@ -8,13 +8,15 @@ namespace SproomInbox.WebApp.Client.Pages
 {
     public class IndexBase : ComponentBase
     {
+        // This object is injected by Depenency Injection container
         [Inject]
         public HttpClient Http { get; set; }
 
         public IList<DocumentModel>? documents;
         public IList<UserModel>? users;
+        public UserModel? user;
 
-        public string? operationMessage;
+        protected List<string> operationMessage = new List<string>();
 
         public EditContext? EditContext;
         public IndexFilter filter = new IndexFilter();
@@ -33,6 +35,15 @@ namespace SproomInbox.WebApp.Client.Pages
         {
             await ReloadDocuments();
             StateHasChanged();  
+        }
+
+        protected string ShowFirstAndLastname(string documentUsername)
+        {
+            var u = users?.FirstOrDefault(u => u.Username == documentUsername);
+            if (u == null)
+                return string.Empty;
+
+            return $"{u.FirstName} {u.LastName}";
         }
 
         protected async Task ReloadDocuments()
@@ -76,20 +87,34 @@ namespace SproomInbox.WebApp.Client.Pages
                 DocumentIds = new List<Guid>()
             };
 
-
-            foreach (var document in documents)
+            if(documents != null && filter.Username != null)
             {
-                if(document.Selected == true)
+                foreach (var document in documents)
                 {
-                    requestBody.DocumentIds.Add(document.Id);
+                    if (document.Selected == true)
+                    {
+                        requestBody.DocumentIds.Add(document.Id);
+                    }
+
                 }
 
-            }
-            requestBody.Username = filter.Username;
+                requestBody.Username = filter.Username;
 
-            HttpResponseMessage responseMessage = Http.PutAsJsonAsync(url,  requestBody).Result;
-            var operationResults = await responseMessage.Content.ReadFromJsonAsync<IList<OperationResultModel>>();
-            operationMessage = operationResults.ToString();
+                HttpResponseMessage responseMessage = await Http.PutAsJsonAsync(url, requestBody);
+                var operationResults = await responseMessage.Content.ReadFromJsonAsync<IList<OperationResultModel>>();
+                operationMessage.Clear();
+
+                foreach (var operationResult in operationResults)
+                {
+                    if (operationResult.IsSuccessful == true)
+                        operationMessage.Add($"Document {operationResult.Id} has been approved.");
+                    else
+                    {
+                        operationMessage.Add($"Document {operationResult.Id} has NOT been approved because due to errors.");
+                    }
+                }
+            }
+
         }
 
 
@@ -97,20 +122,44 @@ namespace SproomInbox.WebApp.Client.Pages
         {
             const string url = "Document/rejectAll";
 
-            var requestBody = new RejectAllDocumentsParams();
-
-            foreach (var document in documents)
+            var requestBody = new RejectAllDocumentsParams
             {
-                if (document.Selected == true)
+                DocumentIds = new List<Guid>()
+            };
+
+            if (documents != null && filter.Username != null)
+            {
+                foreach (var document in documents)
                 {
-                    requestBody.DocumentIds.Add(document.Id);
+                    if (document.Selected == true)
+                    {
+                        requestBody.DocumentIds.Add(document.Id);
+                    }
                 }
             }
             requestBody.Username = filter.Username;
 
             HttpResponseMessage responseMessage = await Http.PutAsJsonAsync(url, requestBody);
             var operationResults = await responseMessage.Content.ReadFromJsonAsync<List<OperationResultModel>>();
-            operationMessage = operationResults.ToString();
+            
+            operationMessage.Clear();
+
+            foreach (var operationResult in operationResults)
+            {
+                if (operationResult.IsSuccessful == true)
+                    operationMessage.Add($"Document {operationResult.Id} has been rejected.");
+                else
+                {
+                    operationMessage.Add($"Document {operationResult.Id} has NOT been rejected because due to errors.");
+                }
+            }
+
+        }
+
+        protected async Task GoBack()
+        {
+            await ReloadDocuments();
+            operationMessage.Clear();
         }
 
     }

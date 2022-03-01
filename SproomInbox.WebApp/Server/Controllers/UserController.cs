@@ -18,10 +18,20 @@ namespace SproomInbox.WebApp.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserModel>> GetDocuments()
+        public async Task<IEnumerable<UserModel>> GetAllUsers()
         {
             var result = await _httpClient.GetAsync($"http://localhost:6170/User");
             return await result.Content.ReadFromJsonAsync<IEnumerable<UserModel>>() ?? Enumerable.Empty<UserModel>();
+        }
+
+
+        [HttpPost]
+        public async Task<UserModel?> CreateUser([FromBody] UserModel user)
+        {
+            HttpResponseMessage result = await _httpClient.PostAsJsonAsync("http://localhost:6170/User", user);
+            if (result.IsSuccessStatusCode == false)
+                return null;
+            return await result.Content.ReadFromJsonAsync<UserModel>();
         }
     }
 }

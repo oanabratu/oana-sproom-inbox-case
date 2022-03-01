@@ -1,0 +1,42 @@
+﻿@page "/useredit"
+@using SproomInbox.Shared
+@inherits UserEditBase
+
+<PageTitle>Create User Page</PageTitle>
+
+<h1>Welcome to User List Page</h1>
+<br />
+
+@if(Saved == false)
+{
+    <EditForm Model="@user" OnValidSubmit="@HandleValidSubmit">
+        <ObjectGraphDataAnnotationsValidator />
+
+        <div class="form-group row">
+            <label for="firstName" class="col-sm-3">First name: </label>
+            <InputText id="firstName" class="form-control col-sm-8" @bind-Value="@user.FirstName" placeholder="Enter first name"></InputText>
+            <ValidationMessage For="@(() => user.FirstName)" />
+        </div>
+        <div class="form-group row">
+            <label for="lastName" class="col-sm-3">Last name: </label>
+            <InputText id="lastName" class="form-control col-sm-8" @bind-Value="@user.LastName" placeholder="Enter last name"></InputText>
+            <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => user.LastName)" />
+        </div>
+        <div class="form-group row">
+            <label for="lastName" class="col-sm-3">Username: </label>
+            <InputText id="lastName" class="form-control col-sm-8" @bind-Value="@user.Username" placeholder="Enter username"></InputText>
+            <ValidationMessage class="offset-sm-3 col-sm-8" For="@(() => user.Username)" />
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-primary edit-btn">Save user</button>
+        <a class="btn btn-outline-primary" @onclick="@Cancel">Cancel</a>
+        <br/>
+    </EditForm>
+}
+else
+{
+    <div class="alert alert-success">@Message</div>
+    <a class="btn btn-primary table-btn" @onclick="@Cancel">Go Back</a> 
+}
+
+
