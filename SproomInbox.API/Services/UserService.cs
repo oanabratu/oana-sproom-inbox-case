@@ -22,7 +22,7 @@ namespace SproomInbox.API.Services
         }
 
         /// <summary>
-        /// 
+        /// Create user service
         /// </summary>
         /// <param name="newUser"></param>
         /// <returns></returns>
@@ -81,7 +81,7 @@ namespace SproomInbox.API.Services
         }
 
         /// <summary>
-        /// Get All Users
+        /// Get all users service
         /// </summary>
         /// <returns></returns>
         public async Task<ServiceResult<IEnumerable<User>>> GetAllUsersAsync()
@@ -97,7 +97,7 @@ namespace SproomInbox.API.Services
         }
 
         /// <summary>
-        /// 
+        /// Get user by id service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

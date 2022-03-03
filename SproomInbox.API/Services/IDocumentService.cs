@@ -4,7 +4,7 @@ using SproomInbox.Shared;
 namespace SproomInbox.API.Services
 {
     /// <summary>
-    /// 
+    /// Documment service interface
     /// </summary>
     public interface IDocumentService
     {

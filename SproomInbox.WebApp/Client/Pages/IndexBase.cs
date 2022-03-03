@@ -11,7 +11,6 @@ namespace SproomInbox.WebApp.Client.Pages
         // This object is injected by Depenency Injection container
         [Inject]
         public HttpClient Http { get; set; }
-
         public IList<DocumentModel>? documents;
         public IList<UserModel>? users;
         public UserModel? user;
@@ -21,7 +20,6 @@ namespace SproomInbox.WebApp.Client.Pages
         public EditContext? EditContext;
         public IndexFilter filter = new IndexFilter();
 
-
         protected override async Task OnInitializedAsync()
         {
             documents = await Http.GetFromJsonAsync<IList<DocumentModel>>("Document");
@@ -30,13 +28,11 @@ namespace SproomInbox.WebApp.Client.Pages
             EditContext = new EditContext(filter);
             EditContext.OnFieldChanged += async (sender,args) => await EditContext_OnFieldChanged(sender, args);
         }
-
         private async Task EditContext_OnFieldChanged(object sender, FieldChangedEventArgs args)
         {
             await ReloadDocuments();
             StateHasChanged();  
         }
-
         protected string ShowFirstAndLastname(string documentUsername)
         {
             var u = users?.FirstOrDefault(u => u.Username == documentUsername);
@@ -45,7 +41,6 @@ namespace SproomInbox.WebApp.Client.Pages
 
             return $"{u.FirstName} {u.LastName}";
         }
-
         protected async Task ReloadDocuments()
         {
             const string url = "Document";
@@ -75,9 +70,6 @@ namespace SproomInbox.WebApp.Client.Pages
 
             documents = await Http.GetFromJsonAsync<IList<DocumentModel>>(requestUri);
         }
-
-
-
         protected async Task ApproveDocuments()
         {
             const string url = "Document/approveAll";
@@ -116,8 +108,6 @@ namespace SproomInbox.WebApp.Client.Pages
             }
 
         }
-
-
         protected async Task RejectDocuments()
         {
             const string url = "Document/rejectAll";
@@ -155,7 +145,6 @@ namespace SproomInbox.WebApp.Client.Pages
             }
 
         }
-
         protected async Task GoBack()
         {
             await ReloadDocuments();

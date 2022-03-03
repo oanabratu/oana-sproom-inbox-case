@@ -21,6 +21,15 @@ namespace SproomInbox.WebApp.Server.Controllers
             _logger = logger;
         }
 
+        [HttpPost]
+        public async Task<DocumentModel?> CreateDocument([FromBody] DocumentModel document)
+        {
+            HttpResponseMessage result = await _httpClient.PostAsJsonAsync("http://localhost:6170/Document", document);
+            if (result.IsSuccessStatusCode == false)
+                return null;
+            return await result.Content.ReadFromJsonAsync<DocumentModel>();
+        }
+
         [HttpGet]
         public async Task<IEnumerable<DocumentModel>> GetDocuments([FromQuery] DocumentQueryParams queryParams)
         {

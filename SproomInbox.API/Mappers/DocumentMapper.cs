@@ -9,7 +9,7 @@ namespace SproomInbox.API.Mappers
     public class DocumentMapper
     {
         /// <summary>
-        /// 
+        /// map from Entity Framework model to UI model 
         /// </summary>
         /// <param name="documentEntity"></param>
         /// <returns></returns>

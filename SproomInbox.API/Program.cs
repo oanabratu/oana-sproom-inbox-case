@@ -13,8 +13,6 @@ builder.Services.AddSwaggerGen(options => {
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
 });
 
-
-
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddTransient<INullMailService, NullMailService>();
 builder.Services.AddTransient<IDocumentService, DocumentService>();

@@ -6,7 +6,7 @@ using SproomInbox.Shared;
 namespace SproomInbox.API.Services
 {
     /// <summary>
-    /// 
+    /// Service that handles Documents
     /// </summary>
     public class DocumentService : IDocumentService
     {
@@ -27,7 +27,7 @@ namespace SproomInbox.API.Services
         }
 
         /// <summary>
-        /// 
+        /// Create document service
         /// </summary>
         /// <param name="newDocument"></param>
         /// <returns></returns>
@@ -71,7 +71,7 @@ namespace SproomInbox.API.Services
         }
 
         /// <summary>
-        /// 
+        /// Get all documents service
         /// </summary>
         /// <param name="queryParams"></param>
         /// <returns></returns>
@@ -84,7 +84,7 @@ namespace SproomInbox.API.Services
         }
 
         /// <summary>
-        /// 
+        /// Aprove document service
         /// </summary>
         /// <param name="id"></param>
         /// <param name="changeStateParams"></param>
@@ -149,7 +149,7 @@ namespace SproomInbox.API.Services
         }
 
         /// <summary>
-        /// 
+        /// Reject document service
         /// </summary>
         /// <param name="id"></param>
         /// <param name="changeStateParams"></param>
@@ -212,7 +212,7 @@ namespace SproomInbox.API.Services
         }
 
         /// <summary>
-        /// 
+        /// Get document by id service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -227,7 +227,7 @@ namespace SproomInbox.API.Services
         }
 
         /// <summary>
-        /// 
+        /// Get document history service 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

@@ -5,7 +5,7 @@ namespace SproomInbox.API.Data
 {
     /// <summary>
     /// UserRepository is the implementation of IUserRepository
-    /// DocumentRepository makes User CRUD operations using Entity Framework
+    /// UserRepository makes User CRUD operations using Entity Framework
     /// </summary>
     public class UserRepository : IUserRepository
     {

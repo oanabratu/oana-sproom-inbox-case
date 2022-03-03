@@ -23,7 +23,7 @@ namespace SproomInbox.API.Data
         }
 
         /// <summary>
-        /// 
+        /// Create document
         /// </summary>
         /// <param name="document"></param>
         /// <returns></returns>
@@ -35,7 +35,7 @@ namespace SproomInbox.API.Data
         }
 
         /// <summary>
-        /// 
+        /// Get all documents
         /// </summary>
         /// <returns></returns>
         public async Task<IEnumerable<Document>> GetAllDocumentsAsync()
@@ -44,7 +44,7 @@ namespace SproomInbox.API.Data
         }
 
         /// <summary>
-        /// 
+        /// Get all documents with filter
         /// </summary>
         /// <param name="queryParams"></param>
         /// <returns></returns>
@@ -59,7 +59,7 @@ namespace SproomInbox.API.Data
         }
 
         /// <summary>
-        /// 
+        /// Get document by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -73,7 +73,7 @@ namespace SproomInbox.API.Data
 
 
         /// <summary>
-        /// 
+        /// save changes
         /// </summary>
         /// <returns></returns>
         public async Task SaveAsync()

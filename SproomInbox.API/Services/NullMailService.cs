@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace SproomInbox.API.Services
 {
     /// <summary>
-    /// 
+    /// Service that handles Mail management
     /// </summary>
     public class NullMailService : INullMailService
     {
         private readonly ILogger<NullMailService> _logger;
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="logger"></param>
         public NullMailService(ILogger<NullMailService> logger)
@@ -24,7 +24,7 @@ namespace SproomInbox.API.Services
         }
 
         /// <summary>
-        /// 
+        /// Send email service
         /// </summary>
         /// <param name="to"></param>
         /// <param name="message"></param>

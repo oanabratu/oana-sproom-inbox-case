@@ -5,7 +5,7 @@ using SproomInbox.API.Services;
 namespace SproomInbox.API
 {
     /// <summary>
-    /// 
+    /// The controller used for documents in web client
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -94,6 +94,11 @@ namespace SproomInbox.API
             return NoContent();
         }
 
+        /// <summary>
+        /// Aprove multiple documents
+        /// </summary>
+        /// <param name="approveAllDocumentsParams"></param>
+        /// <returns></returns>
         [HttpPut("approveAll")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> ApproveAllDocuments([FromBody] ApproveAllDocumentsParams approveAllDocumentsParams)
@@ -115,7 +120,7 @@ namespace SproomInbox.API
         }
 
         /// <summary>
-        /// 
+        /// Reject document by id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="changeStateParams"></param>
@@ -136,7 +141,7 @@ namespace SproomInbox.API
         }
 
         /// <summary>
-        /// 
+        /// Reject multiple documents
         /// </summary>
         /// <param name="approveAllDocumentsParams"></param>
         /// <returns></returns>

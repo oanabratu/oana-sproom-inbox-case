@@ -1,0 +1,48 @@
+﻿@page "/documentedit"
+@using SproomInbox.Shared
+@inherits DocumentEditBase
+
+<PageTitle>Create Document Page</PageTitle>
+
+<h2>Welcome to Create Document Page</h2>
+<br />
+
+@if(Saved == false)
+{
+    <EditForm Model="@document" OnValidSubmit="@HandleValidSubmit">
+        <ObjectGraphDataAnnotationsValidator />
+
+        <div class="form-group row">
+            <label for="fileReference" class="col-sm-3">File Reference: </label>
+            <InputText id="fileReference" class="form-control" @bind-Value="@document.FileReference" placeholder="Enter file reference"></InputText>
+            <ValidationMessage For="@(() => document.FileReference)" />
+        </div>
+        <div class="form-group row">
+            <label for="username" class="col-sm-3">User: </label>
+            <InputSelect id="username" class="form-control-sm" @bind-Value=@document.AssignedToUser>
+                @foreach (var user in users)
+                {
+                    <option value="@user.Username">@user.FirstName @user.LastName</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="form-group row">
+            <label for="documentType" class="col-sm-3">Document Type: </label>
+            <InputSelect id="documentType" class="form-control-sm" @bind-Value=@document.DocumentType >
+                <option value="@(DocumentTypeModel.Invoice)">Invoice</option>
+                <option value="@(DocumentTypeModel.CreditNote)">CreditNote</option>
+            </InputSelect>
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-primary edit-btn">Save document</button>
+        <a class="btn btn-outline-primary" @onclick="@Cancel">Cancel</a>
+        <br/>
+    </EditForm>
+}
+else
+{
+    <div class="alert alert-success">@Message</div>
+    <a class="btn btn-primary table-btn" @onclick="@Cancel">Go Back</a> 
+}
+
+
