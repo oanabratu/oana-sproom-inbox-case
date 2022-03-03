@@ -15,13 +15,15 @@ namespace SproomInbox.WebApp.Client.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        public DocumentModel? document = new DocumentModel();
+        public DocumentModel? document = new DocumentModel
+        {
+            Id = Guid.NewGuid()
+        };
+
         public IList<UserModel>? users;
-        public EditContext? EditContext;
 
         public string Message="";
         protected bool Saved;
-
 
         protected override async Task OnInitializedAsync()
         {
@@ -31,7 +33,6 @@ namespace SproomInbox.WebApp.Client.Pages
 
         protected async Task  HandleValidSubmit() 
         {
-
             HttpResponseMessage responseMessage = await Http.PostAsJsonAsync("Document", document);
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -45,7 +46,9 @@ namespace SproomInbox.WebApp.Client.Pages
                 }
                 else
                 {
-                    // TODO - what if the document was not created?
+                    // show the unsuccess message
+                    Message = $"Unable to create document.";
+                    Saved = true;
                 }
             }
         }

@@ -7,7 +7,7 @@
 <h1>Welcome to User List Page</h1>
 <br />
 
-@if(Saved == false)
+@if(ShowSaveResultMessage == false)
 {
     <EditForm Model="@user" OnValidSubmit="@HandleValidSubmit">
         <ObjectGraphDataAnnotationsValidator />
@@ -35,7 +35,15 @@
 }
 else
 {
-    <div class="alert alert-success">@Message</div>
+    if(UserCreatedSuccessfully)
+    {
+        <div class="alert alert-success">@Message</div>
+    }
+    else
+    {
+        <div class="alert alert-danger">@Message</div>        
+    }
+
     <a class="btn btn-primary table-btn" @onclick="@Cancel">Go Back</a> 
 }
 

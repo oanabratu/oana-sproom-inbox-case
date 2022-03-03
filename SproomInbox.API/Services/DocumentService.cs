@@ -37,7 +37,7 @@ namespace SproomInbox.API.Services
 
             if (string.IsNullOrEmpty(newDocument.AssignedToUser) == false)
             {
-                var foundUser = _userRepository.GetUserByIdAsync(newDocument.AssignedToUser);
+                var foundUser = await _userRepository.GetUserByIdAsync(newDocument.AssignedToUser);
 
                 if (foundUser == null)
                 {
@@ -47,9 +47,19 @@ namespace SproomInbox.API.Services
                 }
             }
 
+            // Check if the document with this Id is not already present in the db
+            var foundDocument = await _documentRepository.GetDocumentByIdAsync(newDocument.Id);
+
+            if (foundDocument != null)
+            {
+                result.IsSuccessful = false;
+                result.ErrorMessage = $"Document {newDocument.Id} is already created";
+                return result;
+            }
+
             var document = new Document
             {
-                Id = Guid.NewGuid(),
+                Id = newDocument.Id,
                 CreationDate = DateTime.Now,
                 FileReference = newDocument.FileReference,
                 DocumentType = (DocumentType)newDocument.DocumentType,

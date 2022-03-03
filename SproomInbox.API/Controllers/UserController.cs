@@ -34,9 +34,10 @@ namespace SproomInbox.API
             // TODO Model Validation 
 
             var result = await _userService.CreateUserAsync(newUser);
-
+           
             if (result.IsSuccessful == false)
             {
+                
                 return BadRequest(result.ErrorMessage);
             }
 

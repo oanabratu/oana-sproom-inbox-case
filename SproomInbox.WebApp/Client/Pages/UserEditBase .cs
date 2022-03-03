@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.WebUtilities;
 using SproomInbox.Shared;
 using System.Net.Http.Json;
 
@@ -19,12 +18,14 @@ namespace SproomInbox.WebApp.Client.Pages
         public EditContext? EditContext;
 
         public string Message="";
-        protected bool Saved;
+        protected bool UserCreatedSuccessfully;
+        protected bool ShowSaveResultMessage;
 
 
         protected override async Task OnInitializedAsync()
         {
-            Saved = false;
+            UserCreatedSuccessfully = false;
+            ShowSaveResultMessage = false; 
         }
 
         protected async Task  HandleValidSubmit() 
@@ -33,10 +34,35 @@ namespace SproomInbox.WebApp.Client.Pages
             HttpResponseMessage responseMessage = await Http.PostAsJsonAsync("User", user);
             if (responseMessage.IsSuccessStatusCode)
             {
-                // show the success message
-                Message = $"The user {user.Username} has been created.";
-                Saved = true;
+                var createUserResult = await responseMessage.Content.ReadFromJsonAsync<CreateUserResultModel>();
+                if (createUserResult != null)
+                {
+                    if(createUserResult.Success)
+                    {
+                        // show the success message
+                        Message = $"The user {user?.Username} has been created.";
+                        UserCreatedSuccessfully = true;
+                    }
+                    else
+                    {
+                        Message = createUserResult.ErrorMessage ?? string.Empty;
+                        UserCreatedSuccessfully = false;
+                    }
+                }
+                else
+                {
+                    Message = $"Unable to create {user?.Username}.";
+                    UserCreatedSuccessfully = false;
+                }
             }
+            else
+            {
+                // show the unsuccess message
+                Message = $"Unable to create {user?.Username}.";
+                UserCreatedSuccessfully = false;
+            }
+
+            ShowSaveResultMessage = true;
         }
 
         protected void Cancel()
