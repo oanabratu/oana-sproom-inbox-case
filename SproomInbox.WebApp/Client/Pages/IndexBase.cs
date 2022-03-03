@@ -28,11 +28,13 @@ namespace SproomInbox.WebApp.Client.Pages
             EditContext = new EditContext(filter);
             EditContext.OnFieldChanged += async (sender,args) => await EditContext_OnFieldChanged(sender, args);
         }
+
         private async Task EditContext_OnFieldChanged(object sender, FieldChangedEventArgs args)
         {
             await ReloadDocuments();
             StateHasChanged();  
         }
+
         protected string ShowFirstAndLastname(string documentUsername)
         {
             var u = users?.FirstOrDefault(u => u.Username == documentUsername);

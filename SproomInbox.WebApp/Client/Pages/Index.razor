@@ -91,6 +91,13 @@
                 <a class="btn btn-primary table-btn" @onclick="@ApproveDocuments">Approve</a>        
             }
         }
+
+        @if(filter.Username == null || filter.DocumentState == null)
+        {
+            <div class="alert alert-primary">
+                In order to "Approve" or "Reject" a document first select the User from the filter and then select "Received" or "Rejected" State
+            </div> 
+        }
     }
     else
     {
@@ -106,3 +113,4 @@
 else {
     <p><em>Loading...</em></p>
 }
+
