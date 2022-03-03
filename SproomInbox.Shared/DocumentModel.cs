@@ -6,6 +6,7 @@ namespace SproomInbox.Shared
     {
         public bool Selected { get; set; }
 
+        [Required]
         public Guid Id { get; set; }
 
 
@@ -17,7 +18,7 @@ namespace SproomInbox.Shared
         /// <summary>
         /// 
         /// </summary>
-        public StateModel State { get; set; }
+        public DocumentStateModel State { get; set; }
 
         /// <summary>
         /// Creation date of the document

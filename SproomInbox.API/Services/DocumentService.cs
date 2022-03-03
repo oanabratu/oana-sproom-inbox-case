@@ -1,6 +1,7 @@
 ﻿
 using SproomInbox.API.Data;
 using SproomInbox.API.Data.Entities;
+using SproomInbox.API.Mappers;
 using SproomInbox.Shared;
 
 namespace SproomInbox.API.Services
@@ -31,9 +32,18 @@ namespace SproomInbox.API.Services
         /// </summary>
         /// <param name="newDocument"></param>
         /// <returns></returns>
-        public async Task<ServiceResult<Document>> CreateDocumentAsync(DocumentModel newDocument)
+        public async Task<ServiceResult<DocumentModel>> CreateDocumentAsync(DocumentModel newDocument)
         {
-            var result = new ServiceResult<Document>();
+            var result = new ServiceResult<DocumentModel>
+            {
+                IsSuccessful = false
+            };
+
+            if (newDocument.Id == Guid.Empty)
+            {
+                result.ErrorMessage = "Document id is missing.";
+                return result;
+            }
 
             if (string.IsNullOrEmpty(newDocument.AssignedToUser) == false)
             {
@@ -41,8 +51,7 @@ namespace SproomInbox.API.Services
 
                 if (foundUser == null)
                 {
-                    result.IsSuccessful = false;
-                    result.ErrorMessage = $"User {newDocument.AssignedToUser} is not found";
+                    result.ErrorMessage = $"User '{newDocument.AssignedToUser}' is not found";
                     return result;
                 }
             }
@@ -52,8 +61,7 @@ namespace SproomInbox.API.Services
 
             if (foundDocument != null)
             {
-                result.IsSuccessful = false;
-                result.ErrorMessage = $"Document {newDocument.Id} is already created";
+                result.ErrorMessage = $"Document '{newDocument.Id}' is already created";
                 return result;
             }
 
@@ -75,8 +83,19 @@ namespace SproomInbox.API.Services
                 }
             };
 
-            result.Data = await _documentRepository.CreateDocumentAsync(document);
-            result.IsSuccessful = true;
+            var createdDocument = await _documentRepository.CreateDocumentAsync(document);
+
+            if(createdDocument != null)
+            {
+                
+                result.Data = DocumentMapper.MapToModel(createdDocument);
+                result.IsSuccessful = true;
+            }
+            else
+            {
+                result.ErrorMessage = "Unable to create document";
+            }
+
             return result;
         }
 
@@ -85,11 +104,11 @@ namespace SproomInbox.API.Services
         /// </summary>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        public async Task<ServiceResult<IEnumerable<Document>>> GetAllDocumentsAsync(DocumentQueryParams queryParams)
+        public async Task<ServiceResult<IEnumerable<DocumentModel>>> GetAllDocumentsAsync(DocumentQueryParams queryParams)
         {
-            var result = new ServiceResult<IEnumerable<Document>>();
+            var result = new ServiceResult<IEnumerable<DocumentModel>>();
             var getAllDocuments = await _documentRepository.GetAllDocumentsAsync(queryParams);
-            result.Data = getAllDocuments;
+            result.Data = getAllDocuments.Select(d => DocumentMapper.MapToModel(d));
             return result;
         }
 
@@ -99,9 +118,9 @@ namespace SproomInbox.API.Services
         /// <param name="id"></param>
         /// <param name="changeStateParams"></param>
         /// <returns></returns>
-        public async Task<ServiceResult<Document>> ApproveDocumentAsync(Guid id, ChangeStateParams changeStateParams)
+        public async Task<ServiceResult<DocumentModel>> ApproveDocumentAsync(Guid id, ChangeStateParams changeStateParams)
         {
-            var result = new ServiceResult<Document>();
+            var result = new ServiceResult<DocumentModel>();
 
             //document by GUID
             var foundDocument = await _documentRepository.GetDocumentByIdAsync(id);
@@ -109,14 +128,14 @@ namespace SproomInbox.API.Services
             if (foundDocument == null)
             {
                 result.IsSuccessful = false;
-                result.ErrorMessage = $"Document {id} not found";
+                result.ErrorMessage = $"Document '{id}' not found";
                 return result;
             }
 
             if (foundDocument.State == State.Approved) 
             {
                 result.IsSuccessful = false;
-                result.ErrorMessage = $"Document {id} already approved";
+                result.ErrorMessage = $"Document '{id}' already approved";
                 return result;
             }
 
@@ -127,7 +146,7 @@ namespace SproomInbox.API.Services
                 if (foundUser == null)
                 {
                     result.IsSuccessful = false;
-                    result.ErrorMessage = $"User {changeStateParams.Username} is not found";
+                    result.ErrorMessage = $"User '{changeStateParams.Username}' is not found";
                     return result;
                 }
             }
@@ -150,7 +169,7 @@ namespace SproomInbox.API.Services
                                     }
                 );
 
-            _mailService.SendEmail(foundDocument.AssignedToUser,  $"Document {foundDocument.Id} has been approved!");
+            _mailService.SendEmail(foundDocument.AssignedToUser,  $"Document '{foundDocument.Id}' has been approved!");
 
             await _documentRepository.SaveAsync();
             result.IsSuccessful = true;
@@ -164,9 +183,9 @@ namespace SproomInbox.API.Services
         /// <param name="id"></param>
         /// <param name="changeStateParams"></param>
         /// <returns></returns>
-        public async Task<ServiceResult<Document>> RejectDocumentAsync(Guid id, ChangeStateParams changeStateParams)
+        public async Task<ServiceResult<DocumentModel>> RejectDocumentAsync(Guid id, ChangeStateParams changeStateParams)
         {
-            var result = new ServiceResult<Document>();
+            var result = new ServiceResult<DocumentModel>();
 
             //document by GUID
             var foundDocument = await _documentRepository.GetDocumentByIdAsync(id);
@@ -192,7 +211,7 @@ namespace SproomInbox.API.Services
                 if (foundUser == null)
                 {
                     result.IsSuccessful = false;
-                    result.ErrorMessage = $"User {changeStateParams.Username} is not found";
+                    result.ErrorMessage = $"User '{changeStateParams.Username}' is not found";
                     return result;
                 }
             }
@@ -226,13 +245,24 @@ namespace SproomInbox.API.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<ServiceResult<Document>> GetDocumentByIdAsync(Guid id)
+        public async Task<ServiceResult<DocumentModel>> GetDocumentByIdAsync(Guid id)
         {
-            var result = new ServiceResult<Document>();
+            var result = new ServiceResult<DocumentModel>
+            {
+                IsSuccessful = false,
+            };
 
             var document = await _documentRepository.GetDocumentByIdAsync(id);
 
-            result.Data = document;
+            if(document == null)
+            {
+                result.ErrorMessage = $"Unable to get the document by id {id}";
+                return result;
+            }
+
+            result.Data = DocumentMapper.MapToModel(document);
+            result.IsSuccessful = true;
+
             return result;
         }
 

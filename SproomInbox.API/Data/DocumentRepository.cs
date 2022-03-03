@@ -27,11 +27,19 @@ namespace SproomInbox.API.Data
         /// </summary>
         /// <param name="document"></param>
         /// <returns></returns>
-        public async Task<Document> CreateDocumentAsync(Document document)
+        public async Task<Document?> CreateDocumentAsync(Document document)
         {
-            var addedEntity = await _ctx.Documents.AddAsync(document);
-            await _ctx.SaveChangesAsync();
-            return addedEntity.Entity;
+            try
+            {
+                var addedEntity = await _ctx.Documents.AddAsync(document);
+                await _ctx.SaveChangesAsync();
+                return addedEntity.Entity;
+            }
+            catch(Exception) 
+            {
+                return null;
+            }
+
         }
 
         /// <summary>

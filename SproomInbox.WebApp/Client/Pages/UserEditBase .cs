@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using SproomInbox.Shared;
 using System.Net.Http.Json;
 
@@ -15,13 +14,16 @@ namespace SproomInbox.WebApp.Client.Pages
         public NavigationManager NavigationManager { get; set; }
 
         public UserModel? user = new UserModel();
-        public EditContext? EditContext;
 
         public string Message="";
         protected bool UserCreatedSuccessfully;
         protected bool ShowSaveResultMessage;
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected override async Task OnInitializedAsync()
         {
             UserCreatedSuccessfully = false;

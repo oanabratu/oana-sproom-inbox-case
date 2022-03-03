@@ -10,7 +10,7 @@ namespace SproomInbox.Shared
     {
         public int Id { get; set; }
         public DateTime Timestamp { get; set; }
-        public StateModel State { get; set; }
+        public DocumentStateModel State { get; set; }
         public string? Username { get; set; }
     }
 }

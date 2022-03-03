@@ -36,7 +36,7 @@ namespace SproomInbox.WebApp.Server.Controllers
                 return operationResult;
             }
 
-            operationResult.Success = true; ;
+            operationResult.Success = true;
             return operationResult;
         }
     }

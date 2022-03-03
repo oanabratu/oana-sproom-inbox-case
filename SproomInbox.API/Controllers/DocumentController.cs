@@ -5,7 +5,7 @@ using SproomInbox.API.Services;
 namespace SproomInbox.API
 {
     /// <summary>
-    /// The controller used for documents in web client
+    /// Document controller
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -29,9 +29,12 @@ namespace SproomInbox.API
         /// <param name="newDocument"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(statusCode: StatusCodes.Status201Created)]
+        [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateDocument([FromBody] DocumentModel newDocument)
         {
-            // TODO Model Validation 
+            if (newDocument == null)
+                return BadRequest();
 
             var result = await _documentService.CreateDocumentAsync(newDocument);
 
@@ -45,13 +48,15 @@ namespace SproomInbox.API
 
 
         /// <summary>
-        /// Get all documents filtered by query parameters
+        /// Get all documents
         /// </summary>
-        /// <param name="queryParams"></param>
+        /// <param name="queryParams">Document Query Parameters</param>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllDocuments([FromQuery] DocumentQueryParams queryParams)
         {
+
             var getAllDocumentsResult = await _documentService.GetAllDocumentsAsync(queryParams);
 
             return Ok(getAllDocumentsResult.Data);
@@ -59,11 +64,12 @@ namespace SproomInbox.API
 
 
         /// <summary>
-        /// Get document by id
+        /// Get document history
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}/history")]
+        [ProducesResponseType(statusCode: StatusCodes.Status200OK)]
         public async Task<IActionResult> GetDocumentHistory(Guid id)
         {
             var documentStatesResult = await _documentService.GetDocumentHistoryAsync(id);

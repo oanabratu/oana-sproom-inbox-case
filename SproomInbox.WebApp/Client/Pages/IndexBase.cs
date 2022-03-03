@@ -159,6 +159,6 @@ namespace SproomInbox.WebApp.Client.Pages
     {
         public string? Username { get; set; }
         public DocumentTypeModel? DocumentType { get; set; }
-        public StateModel? DocumentState { get; set; }
+        public DocumentStateModel? DocumentState { get; set; }
     }
 }

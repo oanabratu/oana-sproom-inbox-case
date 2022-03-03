@@ -9,19 +9,18 @@ namespace SproomInbox.API.Mappers
     public class DocumentMapper
     {
         /// <summary>
-        /// map from Entity Framework model to UI model 
+        /// Map from Entity Framework model to UI model 
         /// </summary>
         /// <param name="documentEntity"></param>
         /// <returns></returns>
-        public static DocumentModel? MapToModel(Document documentEntity)
+        public static DocumentModel MapToModel(Document documentEntity)
         {
-            if (documentEntity == null) return null;
-
             var model = new DocumentModel
             {
                 Id = documentEntity.Id,
                 CreationDate = documentEntity.CreationDate,
-                State = (StateModel)(int)documentEntity.State,
+                State = (DocumentStateModel)(int)documentEntity.State,
+                FileReference = documentEntity.FileReference,
                 AssignedToUser = documentEntity.AssignedToUser,
                 DocumentType = (DocumentTypeModel)(int)documentEntity.DocumentType
             };

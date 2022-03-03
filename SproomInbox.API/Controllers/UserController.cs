@@ -5,7 +5,7 @@ using SproomInbox.API.Services;
 namespace SproomInbox.API
 {
     /// <summary>
-    /// 
+    /// User Control
     /// </summary>
     [ApiController]
     [Route("[controller]")]

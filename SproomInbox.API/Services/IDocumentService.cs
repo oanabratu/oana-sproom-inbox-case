@@ -13,7 +13,7 @@ namespace SproomInbox.API.Services
         /// </summary>
         /// <param name="newDocument"></param>
         /// <returns></returns>
-        Task<ServiceResult<Document>> CreateDocumentAsync(DocumentModel newDocument);
+        Task<ServiceResult<DocumentModel>> CreateDocumentAsync(DocumentModel newDocument);
 
         /// <summary>
         /// 
@@ -21,7 +21,7 @@ namespace SproomInbox.API.Services
         /// <param name="id"></param>
         /// <param name="changeStateParams"></param>
         /// <returns></returns>
-        Task<ServiceResult<Document>> ApproveDocumentAsync(Guid id, ChangeStateParams changeStateParams);
+        Task<ServiceResult<DocumentModel>> ApproveDocumentAsync(Guid id, ChangeStateParams changeStateParams);
 
         /// <summary>
         /// 
@@ -29,21 +29,21 @@ namespace SproomInbox.API.Services
         /// <param name="id"></param>
         /// <param name="changeStateParams"></param>
         /// <returns></returns>
-        Task<ServiceResult<Document>> RejectDocumentAsync(Guid id, ChangeStateParams changeStateParams);
+        Task<ServiceResult<DocumentModel>> RejectDocumentAsync(Guid id, ChangeStateParams changeStateParams);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        Task<ServiceResult<IEnumerable<Document>>> GetAllDocumentsAsync(DocumentQueryParams queryParams);
+        Task<ServiceResult<IEnumerable<DocumentModel>>> GetAllDocumentsAsync(DocumentQueryParams queryParams);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<ServiceResult<Document>> GetDocumentByIdAsync(Guid id);
+        Task<ServiceResult<DocumentModel>> GetDocumentByIdAsync(Guid id);
 
         /// <summary>
         /// 

@@ -30,9 +30,9 @@
                 <label for="documentState">State: </label>
                 <InputSelect id="documentState" class="form-control-sm" @bind-Value=@filter.DocumentState  >
                     <option value="">Any State</option>
-                    <option value="@(StateModel.Received)">Received</option>
-                    <option value="@(StateModel.Approved)">Approved</option> 
-                    <option value="@(StateModel.Rejected)">Rejected</option>
+                    <option value="@(DocumentStateModel.Received)">Received</option>
+                    <option value="@(DocumentStateModel.Approved)">Approved</option> 
+                    <option value="@(DocumentStateModel.Rejected)">Rejected</option>
                 </InputSelect>
                 <label for="documentType">Type: </label>
                 <InputSelect id="documentType" class="form-control-sm" @bind-Value=@filter.DocumentType >
@@ -81,12 +81,12 @@
 
         @if(filter.Username != null && documents.Count > 0)
         {
-            @if(filter.DocumentState == StateModel.Received)
+            @if(filter.DocumentState == DocumentStateModel.Received)
             {
                 <a class="btn btn-primary table-btn" @onclick="@ApproveDocuments">Approve</a>
                 <a class="btn btn-primary table-btn" @onclick="@RejectDocuments">Reject</a>
             }
-            else if(filter.DocumentState == StateModel.Rejected)
+            else if(filter.DocumentState == DocumentStateModel.Rejected)
             {
                 <a class="btn btn-primary table-btn" @onclick="@ApproveDocuments">Approve</a>        
             }
