@@ -4,15 +4,22 @@ namespace SproomInbox.Shared
 {
     public class UserModel
     {
-        //username
+        /// <summary>
+        /// Username
+        /// </summary>
         [Required]
         public string Username { get; set; }
 
-        //firstname of the user
+        /// <summary>
+        /// User FirstName
+        /// </summary>
         [Required]
         public string FirstName { get; set; }
 
-        //lastname of the user
+
+        /// <summary>
+        /// User Lastname
+        /// </summary>
         [Required]
         public string LastName { get; set; }
     }

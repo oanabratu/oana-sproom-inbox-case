@@ -9,30 +9,37 @@
 
 @if(document!= null && users != null)
 {
-    @if(Saved == false)
+    @if(users.Count == 0 )
+    {
+        <div class="alert alert-success">No users found. Please create a user first</div>
+        <a class="btn btn-primary table-btn" @onclick="@CreateUser">Create User</a> 
+    }
+    else if(Saved == false)
     {
         <EditForm Model="@document" OnValidSubmit="@HandleValidSubmit">
-            <ObjectGraphDataAnnotationsValidator />
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
             <div class="form-group row">
                 <label for="fileReference" class="col-sm-3">File Reference: </label>
                 <InputText id="fileReference" class="form-control-sm" @bind-Value="@document.FileReference" placeholder="Enter file reference"></InputText>
-                <ValidationMessage For="@(() => document.FileReference)" />
-            </div>
-            <div class="form-group row">
-                <label for="assignedToUser" class="col-sm-3">User: </label>
-                <InputSelect id="assignedToUser" class="form-control-sm" @bind-Value=@document.AssignedToUser>
-                    @foreach (var user in users)
-                    {
-                        <option value="@user.Username">@user.FirstName @user.LastName</option>
-                    }
-                </InputSelect>
+                <ValidationMessage For="@(() => document.FileReference)"/>
             </div>
             <div class="form-group row">
                 <label for="documentType" class="col-sm-3">Document Type: </label>
                 <InputSelect id="documentType" class="form-control-sm " @bind-Value=@document.DocumentType >
                     <option value="@(DocumentTypeModel.Invoice)">Invoice</option>
                     <option value="@(DocumentTypeModel.CreditNote)">CreditNote</option>
+                </InputSelect>
+            </div>
+            <div class="form-group row">
+                <label for="assignedToUser" class="col-sm-3">Assigned to User: </label>
+                <InputSelect id="assignedToUser" class="form-control-sm" @bind-Value=@document.AssignedToUser>
+                    <option value=""></option>
+                    @foreach (var user in users)
+                    {
+                        <option value="@user.Username">@user.FirstName @user.LastName</option>
+                    }
                 </InputSelect>
             </div>
             <br/>

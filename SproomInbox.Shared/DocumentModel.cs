@@ -10,6 +10,7 @@ namespace SproomInbox.Shared
         public Guid Id { get; set; }
 
 
+        [Required]
         /// <summary>
         /// 
         /// </summary>
@@ -26,11 +27,13 @@ namespace SproomInbox.Shared
 
         public DateTime CreationDate { get; set; }
 
+        [Required]
         /// <summary>
         /// file reference
         /// </summary>
         public string FileReference { get; set; }
 
+        [Required]
         /// <summary>
         /// 
         /// </summary>

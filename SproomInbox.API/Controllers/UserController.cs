@@ -31,7 +31,8 @@ namespace SproomInbox.API
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserModel newUser)
         {
-            // TODO Model Validation 
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             var result = await _userService.CreateUserAsync(newUser);
            

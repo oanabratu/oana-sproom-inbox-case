@@ -36,6 +36,9 @@ namespace SproomInbox.API
             if (newDocument == null)
                 return BadRequest();
 
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var result = await _documentService.CreateDocumentAsync(newDocument);
 
             if (result.IsSuccessful == false)
@@ -79,7 +82,7 @@ namespace SproomInbox.API
 
 
         /// <summary>
-        /// Approve a document
+        /// Approve document 
         /// </summary>
         /// <param name="id"></param>
         /// <param name="changeStateParams"></param>
@@ -126,7 +129,7 @@ namespace SproomInbox.API
         }
 
         /// <summary>
-        /// Reject document by id
+        /// Reject document
         /// </summary>
         /// <param name="id"></param>
         /// <param name="changeStateParams"></param>

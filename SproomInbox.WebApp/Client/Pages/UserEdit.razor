@@ -10,7 +10,8 @@
 @if(ShowSaveResultMessage == false)
 {
     <EditForm Model="@user" OnValidSubmit="@HandleValidSubmit">
-        <ObjectGraphDataAnnotationsValidator />
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
         <div class="form-group row">
             <label for="firstName" class="col-sm-3">First name: </label>

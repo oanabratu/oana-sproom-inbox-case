@@ -31,7 +31,7 @@ namespace SproomInbox.WebApp.Client.Pages
             Saved = false;
         }
 
-        protected async Task  HandleValidSubmit() 
+        protected async Task  HandleValidSubmit()
         {
             HttpResponseMessage responseMessage = await Http.PostAsJsonAsync("Document", document);
             if (responseMessage.IsSuccessStatusCode)
@@ -56,6 +56,11 @@ namespace SproomInbox.WebApp.Client.Pages
         protected void Cancel()
         {
             NavigationManager.NavigateTo("/");
+        }
+
+        protected void CreateUser()
+        {
+            NavigationManager.NavigateTo("/useredit");
         }
     }
 
