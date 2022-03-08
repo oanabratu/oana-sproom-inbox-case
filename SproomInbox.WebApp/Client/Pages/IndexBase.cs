@@ -35,6 +35,7 @@ namespace SproomInbox.WebApp.Client.Pages
             StateHasChanged();  
         }
 
+
         protected string ShowFirstAndLastname(string documentUsername)
         {
             var u = users?.FirstOrDefault(u => u.Username == documentUsername);

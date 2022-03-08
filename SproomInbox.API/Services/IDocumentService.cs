@@ -50,6 +50,6 @@ namespace SproomInbox.API.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<ServiceResult<IEnumerable<StateHistory>>> GetDocumentHistoryAsync(Guid id);
+        Task<ServiceResult<IEnumerable<StateHistoryModel>>> GetDocumentHistoryAsync(Guid id);
     }
 }

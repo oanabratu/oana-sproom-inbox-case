@@ -149,6 +149,8 @@ namespace SproomInbox.API.Services
                     result.ErrorMessage = $"User '{changeStateParams.Username}' is not found";
                     return result;
                 }
+
+                // TODO - check that the user from the request is the one on the Document ( AssignedToUser )
             }
             else
             {
@@ -271,12 +273,14 @@ namespace SproomInbox.API.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<ServiceResult<IEnumerable<StateHistory>>> GetDocumentHistoryAsync(Guid id)
+        public async Task<ServiceResult<IEnumerable<StateHistoryModel>>> GetDocumentHistoryAsync(Guid id)
         {
-            var result = new ServiceResult<IEnumerable<StateHistory>>();
+            var result = new ServiceResult<IEnumerable<StateHistoryModel>>();
 
             result.IsSuccessful = true;
-            result.Data = await _documentRepository.GetDocumentHistory(id);
+
+            var documentStates = await _documentRepository.GetDocumentHistory(id);
+            result.Data = documentStates.Select(d => DocumentMapper.MapToModel(d));
 
             return result;
         }

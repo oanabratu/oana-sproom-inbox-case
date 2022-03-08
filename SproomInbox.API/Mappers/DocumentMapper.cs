@@ -27,5 +27,23 @@ namespace SproomInbox.API.Mappers
 
             return model;
         }
+
+        /// <summary>
+        /// Map from Shared model to Entity Framework model
+        /// </summary>
+        /// <param name="documentEntity"></param>
+        /// <returns></returns>
+        public static StateHistoryModel MapToModel(StateHistory documentEntity)
+        {
+            var model = new StateHistoryModel
+            {
+                Id = documentEntity.Id,
+                Timestamp = documentEntity.Timestamp,
+                State = (DocumentStateModel)(int)documentEntity.State,
+                Username = documentEntity.Username
+            };
+
+            return model;
+        }
     }
 }
